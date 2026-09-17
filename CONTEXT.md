@@ -59,3 +59,9 @@ Use the editor to encode one real research methodology from Ben's work. Add rich
 ## Repository hygiene
 
 The source of truth is this repository. Do not copy files from deprecated Vault experiments into it without a new decision. Keep runtime integrations in separate modules and document whether they are read-only, derived, or authoritative.
+
+## React migration status
+
+`react-app/` is a minimal Vite + React prototype. It reuses `../model.mjs`, renders the sample graph and methodology subgraph, supports graph/outline views and a basic inspector, and intentionally leaves editing read-only. `cd react-app && npm install && npm run build` is verified. The vanilla app remains the fuller interaction reference until React parity is reached.
+
+Visualization recommendation: adopt React Flow/XYFlow for the next editing pass if custom SVG hit testing and layout become expensive. Evaluate Cytoscape.js for large graph exploration and Sigma.js for read-heavy WebGL views. Keep ontology semantics in the repository model layer rather than coupling them to a renderer.

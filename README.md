@@ -39,3 +39,27 @@ The prior `Canvas-First Ontology Lab` and `Semantic Canvas Fork` experiments are
 ## Handoff state
 
 See [CONTEXT.md](CONTEXT.md) for the product intent, decisions, current evidence, known limitations, and a roadmap for the next agent.
+
+## React prototype
+
+The repository also contains a minimal React/Vite surface under `react-app/`.
+
+```bash
+cd react-app
+npm install
+npm run dev
+```
+
+It reuses the version 1 model and sample data from the parent directory. The React surface is intentionally read-only and small while the vanilla MVP remains the fuller editing reference.
+
+### Graph visualization choices
+
+| Option | Best fit | Tradeoff |
+| --- | --- | --- |
+| React + SVG (current prototype) | Small custom editor, full control over semantics and styling | We own layout, hit testing, pan/zoom, and edge routing |
+| React Flow / XYFlow | Fast node editor with handles, selection, minimap, and custom React nodes | Its workflow-centric model may need adaptation for ontology semantics and very large graphs |
+| Cytoscape.js | Mature graph algorithms, compound nodes, filtering, and larger graph exploration | Imperative integration and less natural React component model |
+| Sigma.js + graphology | Large read-heavy graph exploration and WebGL rendering | More work for rich node editing and workflow authoring |
+| D3 | Bespoke layouts and data visualizations | Lowest-level option; highest implementation cost |
+
+Recommendation: use **React Flow/XYFlow** when editing interactions become the bottleneck; use **Cytoscape.js** for a later large-graph explorer; keep the current SVG model as the semantic reference and smallest dependency surface.
