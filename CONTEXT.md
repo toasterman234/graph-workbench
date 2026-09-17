@@ -62,6 +62,6 @@ The source of truth is this repository. Do not copy files from deprecated Vault 
 
 ## React migration status
 
-`react-app/` is a minimal Vite + React prototype. It reuses `../model.mjs`, renders the sample graph and methodology subgraph, supports graph/outline views and a basic inspector, and intentionally leaves editing read-only. `cd react-app && npm install && npm run build` is verified. The vanilla app remains the fuller interaction reference until React parity is reached.
+`react-app/` is a minimal Vite + React + D3 prototype. It reuses `../model.mjs`, renders the sample graph and methodology subgraph, uses D3 scales for graph coordinates, supports graph/outline views and a basic inspector, and intentionally leaves editing read-only. `cd react-app && npm install && npm run build` is verified. The vanilla app remains the fuller interaction reference until React parity is reached.
 
-Visualization recommendation: adopt React Flow/XYFlow for the next editing pass if custom SVG hit testing and layout become expensive. Evaluate Cytoscape.js for large graph exploration and Sigma.js for read-heavy WebGL views. Keep ontology semantics in the repository model layer rather than coupling them to a renderer.
+Visualization recommendation: continue with D3 for this product and add `d3-force`, `d3-drag`, and `d3-zoom` as the React editor gains interactions. Evaluate Cytoscape.js for a separate large-graph explorer and Sigma.js for read-heavy WebGL views. Keep ontology semantics in the repository model layer rather than coupling them to a renderer.

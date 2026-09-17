@@ -50,16 +50,16 @@ npm install
 npm run dev
 ```
 
-It reuses the version 1 model and sample data from the parent directory. The React surface is intentionally read-only and small while the vanilla MVP remains the fuller editing reference.
+It reuses the version 1 model and sample data from the parent directory. The React surface is intentionally read-only and small while the vanilla MVP remains the fuller editing reference. D3 supplies the coordinate scales for the graph surface; the next pass can add D3 force layout, drag, and zoom behavior.
 
 ### Graph visualization choices
 
 | Option | Best fit | Tradeoff |
 | --- | --- | --- |
-| React + SVG (current prototype) | Small custom editor, full control over semantics and styling | We own layout, hit testing, pan/zoom, and edge routing |
+| React + D3 (current prototype) | Custom SVG rendering plus D3 scales, force layout, drag, zoom, and data joins | We still own the semantic/editor model and some interaction wiring |
 | React Flow / XYFlow | Fast node editor with handles, selection, minimap, and custom React nodes | Its workflow-centric model may need adaptation for ontology semantics and very large graphs |
 | Cytoscape.js | Mature graph algorithms, compound nodes, filtering, and larger graph exploration | Imperative integration and less natural React component model |
 | Sigma.js + graphology | Large read-heavy graph exploration and WebGL rendering | More work for rich node editing and workflow authoring |
 | D3 | Bespoke layouts and data visualizations | Lowest-level option; highest implementation cost |
 
-Recommendation: use **React Flow/XYFlow** when editing interactions become the bottleneck; use **Cytoscape.js** for a later large-graph explorer; keep the current SVG model as the semantic reference and smallest dependency surface.
+Recommendation: continue with **React + D3** for this product. Add D3 force/layout and zoom incrementally; evaluate Cytoscape.js only if large graph exploration becomes a separate need. Keep ontology semantics in the repository model layer rather than coupling them to the renderer.
