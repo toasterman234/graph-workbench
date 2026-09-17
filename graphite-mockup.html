@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <title>Graph Workbench UI Mockup</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      --page: #0b0d0c;
+      --panel: #141716;
+      --panel-raised: #191d1b;
+      --panel-soft: #101311;
+      --canvas: #0d100f;
+      --text: #e9edea;
+      --text-strong: #f7faf8;
+      --muted: #9aa5a0;
+      --muted-2: #6f7a75;
+      --border: rgba(255,255,255,.08);
+      --border-strong: rgba(255,255,255,.15);
+      --accent: #3ecf8e;
+      --accent-deep: #1f6f4a;
+      --accent-soft: rgba(62,207,142,.13);
+      --accent-glow: rgba(62,207,142,.22);
+      --accent-ink: #07130d;
+      --emerald: #48d99b;
+      --emerald-soft: rgba(72,217,155,.16);
+      --amber: #e7ad51;
+      --amber-soft: rgba(231,173,81,.22);
+      --sky: #62b7e6;
+      --sky-soft: rgba(98,183,230,.18);
+      --violet: #a88be8;
+      --violet-soft: rgba(168,139,232,.18);
+      --rose: #e47b89;
+      --rose-soft: rgba(228,123,137,.22);
+      --danger: #e87878;
+      --danger-soft: rgba(232,120,120,.1);
+      --grid-dot: rgba(183,205,194,.11);
+      --edge: #8a9b92;
+      --edge-hover: #b7c9c0;
+      --shadow: 0 16px 40px rgba(0,0,0,.28);
+      --shadow-node: 0 8px 20px rgba(0,0,0,.24);
+      --overlay: rgba(4,6,5,.7);
+      --white-soft: rgba(255,255,255,.04);
+      --control-hover: rgba(255,255,255,.07);
+      --focus-ring: rgba(62,207,142,.35);
+      --radius-sm: 7px;
+      --radius-md: 11px;
+      --radius-lg: 16px;
+    }
+
+    html[data-theme="light"] {
+      color-scheme: light;
+      --page: #f4f6f1;
+      --panel: #fcfdf9;
+      --panel-raised: #ffffff;
+      --panel-soft: #eef2eb;
+      --canvas: #f7f9f5;
+      --text: #24382e;
+      --text-strong: #14251c;
+      --muted: #68776f;
+      --muted-2: #8b978f;
+      --border: #dde3da;
+      --border-strong: #cbd4c8;
+      --accent: #2f5d45;
+      --accent-deep: #294f3c;
+      --accent-soft: rgba(47,93,69,.1);
+      --accent-glow: rgba(47,93,69,.18);
+      --accent-ink: #ffffff;
+      --emerald: #2e815e;
+      --emerald-soft: rgba(46,129,94,.1);
+      --amber: #a86f22;
+      --amber-soft: rgba(168,111,34,.14);
+      --sky: #347da3;
+      --sky-soft: rgba(52,125,163,.12);
+      --violet: #7055a5;
+      --violet-soft: rgba(112,85,165,.12);
+      --rose: #a94c5b;
+      --rose-soft: rgba(169,76,91,.14);
+      --danger: #9e4242;
+      --danger-soft: rgba(158,66,66,.08);
+      --grid-dot: rgba(52,86,66,.12);
+      --edge: #70877a;
+      --edge-hover: #405d4d;
+      --shadow: 0 18px 45px rgba(34,56,45,.14);
+      --shadow-node: 0 8px 18px rgba(43,68,54,.12);
+      --overlay: rgba(28,42,34,.46);
+      --white-soft: rgba(35,56,46,.035);
+      --control-hover: rgba(47,93,69,.08);
+      --focus-ring: rgba(47,93,69,.25);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+    body { background: var(--page); color: var(--text); font-family: var(--font-ui); font-size: 13px; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+    svg { display: block; }
+
+    .app { height: 100dvh; display: grid; grid-template-rows: 58px 1fr; background: var(--page); }
+    .topbar { display: flex; align-items: center; gap: 18px; padding: 0 16px; border-bottom: 1px solid var(--border); background: var(--panel); min-width: 0; z-index: 20; }
+    .brand { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+    .brand-mark { width: 28px; height: 28px; color: var(--accent); }
+    .brand-name { font-weight: 680; letter-spacing: -.01em; color: var(--text-strong); font-size: 14px; }
+    .mock-tag, .draft-tag { display: inline-flex; align-items: center; min-height: 20px; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--border-strong); font-size: 9px; font-weight: 800; letter-spacing: .1em; color: var(--muted); }
+    .mock-tag { color: var(--accent); border-color: var(--accent-deep); background: var(--accent-soft); }
+    .top-divider { width: 1px; height: 24px; background: var(--border); }
+    .model-meta { display: flex; align-items: center; gap: 9px; min-width: 0; }
+    .model-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .save-status { display: flex; align-items: center; gap: 7px; color: var(--muted); margin-left: auto; white-space: nowrap; }
+    .save-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .top-actions { display: flex; gap: 7px; align-items: center; }
+    .btn { height: 34px; padding: 0 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--panel-raised); color: var(--text); display: inline-flex; align-items: center; justify-content: center; gap: 7px; font-weight: 600; transition: background .16s ease, border-color .16s ease, color .16s ease, transform .16s ease; }
+    .btn:hover { background: var(--control-hover); border-color: var(--border-strong); }
+    .btn:active { transform: translateY(1px); }
+    .btn svg { width: 15px; height: 15px; }
+    .btn-primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+    .btn-primary:hover { background: var(--emerald); border-color: var(--emerald); }
+    .icon-btn { width: 34px; padding: 0; }
+    .theme-toggle .sun, html[data-theme="light"] .theme-toggle .moon { display: none; }
+    html[data-theme="light"] .theme-toggle .sun { display: block; }
+
+    .mobile-tabs { display: none; }
+    .workbench { min-height: 0; display: grid; grid-template-columns: 222px minmax(420px, 1fr) 310px; }
+    .library, .inspector { min-height: 0; background: var(--panel); display: flex; flex-direction: column; }
+    .library { border-right: 1px solid var(--border); }
+    .inspector { border-left: 1px solid var(--border); }
+    .panel-scroll { overflow: auto; min-height: 0; padding: 18px 14px; scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+    .section-label { font-size: 10px; letter-spacing: .13em; color: var(--muted-2); font-weight: 760; margin: 0 8px 9px; }
+    .nav-list, .type-list, .relation-list { display: grid; gap: 3px; }
+    .nav-item, .type-item, .relation-item { min-height: 34px; padding: 7px 8px; display: flex; align-items: center; gap: 9px; border: 1px solid transparent; border-radius: var(--radius-sm); color: var(--muted); background: transparent; width: 100%; text-align: left; }
+    .nav-item:hover, .type-item:hover, .relation-item:hover { background: var(--control-hover); color: var(--text); }
+    .nav-item.active { background: var(--accent-soft); color: var(--accent); border-color: var(--border); }
+    .nav-item svg, .relation-item svg { width: 16px; height: 16px; flex: none; }
+    .nav-item span:nth-child(2), .type-item span:nth-child(2), .relation-item span:nth-child(2) { flex: 1; }
+    .count { min-width: 23px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; background: var(--white-soft); border: 1px solid var(--border); color: var(--muted); font-size: 10px; }
+    .section-head { display: flex; align-items: center; justify-content: space-between; margin: 22px 3px 8px 8px; }
+    .section-head .section-label { margin: 0; }
+    .mini-add { width: 27px; height: 27px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-size: 19px; line-height: 1; }
+    .mini-add:hover { background: var(--control-hover); color: var(--accent); }
+    .type-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--type-color); box-shadow: 0 0 0 3px var(--type-soft); }
+    .type-method { --type-color: var(--emerald); --type-soft: var(--emerald-soft); }
+    .type-step { --type-color: var(--amber); --type-soft: var(--amber-soft); }
+    .type-entity { --type-color: var(--sky); --type-soft: var(--sky-soft); }
+    .type-decision { --type-color: var(--rose); --type-soft: var(--rose-soft); }
+    .type-finding { --type-color: var(--violet); --type-soft: var(--violet-soft); }
+    .library-foot { margin-top: auto; padding: 13px 16px 16px; border-top: 1px solid var(--border); color: var(--muted-2); font-size: 11px; line-height: 1.45; }
+    .library-foot kbd { padding: 1px 5px; border: 1px solid var(--border-strong); border-bottom-width: 2px; border-radius: 4px; color: var(--muted); background: var(--panel-raised); font: inherit; }
+
+    .canvas-stage { min-height: 0; display: flex; flex-direction: column; background: var(--canvas); position: relative; }
+    .canvas-head { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: end; padding: 24px 28px 18px; border-bottom: 1px solid var(--border); }
+    .eyebrow { color: var(--accent); letter-spacing: .12em; font-weight: 750; font-size: 10px; text-transform: uppercase; }
+    .canvas-head p { margin: 5px 0 0; color: var(--text); line-height: 1.45; font-size: 14px; }
+    .canvas-tools { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--panel-soft); }
+    .segmented { display: flex; padding: 3px; border: 1px solid var(--border); border-radius: 8px; background: var(--canvas); }
+    .segmented button { height: 27px; border: 0; border-radius: 5px; padding: 0 12px; background: transparent; color: var(--muted); font-weight: 650; }
+    .segmented button.active { background: var(--panel-raised); color: var(--text); box-shadow: var(--shadow-node); }
+    .tool-separator { width: 1px; height: 22px; background: var(--border); margin: 0 2px; }
+    .tool-btn { width: 30px; height: 30px; border: 1px solid transparent; border-radius: 6px; background: transparent; color: var(--muted); display: grid; place-items: center; }
+    .tool-btn:hover { background: var(--control-hover); color: var(--text); border-color: var(--border); }
+    .tool-btn svg { width: 15px; height: 15px; }
+    .tool-label { margin-left: auto; color: var(--muted-2); font-size: 11px; }
+    .graph-wrap { min-height: 0; flex: 1; position: relative; overflow: hidden; }
+    #graph { width: 100%; height: 100%; min-height: 310px; }
+    .graph-footer { position: absolute; inset: auto 14px 12px 14px; display: flex; justify-content: space-between; align-items: end; pointer-events: none; }
+    .graph-hint { color: var(--muted-2); background: var(--panel); border: 1px solid var(--border); padding: 7px 9px; border-radius: 7px; font-size: 10px; box-shadow: var(--shadow-node); }
+    .zoom { pointer-events: auto; display: flex; align-items: center; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-node); }
+    .zoom button { width: 31px; height: 31px; border: 0; background: transparent; color: var(--muted); }
+    .zoom button:hover { background: var(--control-hover); color: var(--text); }
+    .zoom span { width: 43px; text-align: center; font-size: 10px; color: var(--muted); }
+
+    .node { cursor: pointer; filter: drop-shadow(0 7px 9px rgba(0,0,0,.18)); }
+    html[data-theme="light"] .node { filter: drop-shadow(0 6px 8px rgba(43,68,54,.11)); }
+    .node .node-shape { fill: var(--panel-raised); stroke: var(--node-color); stroke-width: 1.5; vector-effect: non-scaling-stroke; transition: stroke-width .14s ease, filter .14s ease, fill .14s ease; }
+    .node:hover .node-shape { stroke-width: 2.25; }
+    .node.selected .node-shape { stroke: var(--accent); stroke-width: 2.5; filter: drop-shadow(0 0 7px var(--accent-glow)); }
+    .node .method-inner { fill: none; stroke: var(--node-color); stroke-width: .8; opacity: .62; vector-effect: non-scaling-stroke; }
+    .node .node-kicker { fill: var(--node-color); font-family: var(--font-ui); font-size: 9px; font-weight: 800; letter-spacing: 1.1px; }
+    .node .node-title { fill: var(--text-strong); font-family: var(--font-ui); font-size: 13px; font-weight: 680; }
+    .node .node-sub { fill: var(--muted); font-family: var(--font-ui); font-size: 9.5px; }
+    .node-method { --node-color: var(--emerald); }
+    .node-step { --node-color: var(--amber); }
+    .node-entity { --node-color: var(--sky); }
+    .node-finding { --node-color: var(--violet); }
+    .node-decision { --node-color: var(--rose); }
+    .node-decision .node-shape { fill: var(--rose-soft); stroke-width: 2; }
+    .edge { fill: none; stroke: var(--edge); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; marker-end: url(#arrow); transition: stroke .14s ease, stroke-width .14s ease; }
+    .edge:hover { stroke: var(--edge-hover); stroke-width: 2.35; }
+    .edge-loop { stroke: var(--rose); stroke-dasharray: 6 5; opacity: .9; }
+    .edge-label rect { fill: var(--canvas); stroke: var(--edge); stroke-width: 1; vector-effect: non-scaling-stroke; }
+    .edge-label text { fill: var(--text); font-family: var(--font-ui); font-size: 9.5px; font-weight: 700; letter-spacing: .15px; }
+    .port { fill: var(--canvas); stroke: var(--node-color); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+    .mobile-network { display: none; }
+
+    .inspector-header { padding: 20px 18px 16px; border-bottom: 1px solid var(--border); }
+    .inspector-identity { display: flex; gap: 11px; align-items: flex-start; }
+    .type-icon { width: 34px; height: 34px; border: 1px solid var(--accent-deep); border-radius: 9px; color: var(--accent); background: var(--accent-soft); display: grid; place-items: center; flex: none; }
+    .type-icon svg { width: 17px; height: 17px; }
+    .inspector-header h2 { margin: 2px 0 0; font-family: var(--font-display); font-size: 22px; font-weight: 550; line-height: 1.1; color: var(--text-strong); letter-spacing: -.02em; }
+    .inspector-header .kind { font-size: 9px; letter-spacing: .12em; color: var(--accent); font-weight: 800; text-transform: uppercase; }
+    .inspector-body { padding: 16px 18px 24px; overflow-y: auto; min-height: 0; }
+    .description { color: var(--muted); line-height: 1.55; margin: 0 0 18px; }
+    .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; border: 1px solid var(--border); border-radius: 9px; overflow: hidden; background: var(--border); margin-bottom: 19px; }
+    .meta-cell { padding: 10px; background: var(--panel-soft); min-width: 0; }
+    .meta-cell span { display: block; color: var(--muted-2); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+    .meta-cell strong { font-size: 11px; font-weight: 650; display: block; overflow: hidden; text-overflow: ellipsis; }
+    .field-block { margin: 0 0 18px; }
+    .field-label { display: block; margin: 0 0 8px; color: var(--muted-2); font-size: 9px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+    .pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .pill { display: inline-flex; align-items: center; gap: 5px; min-height: 24px; padding: 3px 8px; border-radius: 999px; background: var(--white-soft); border: 1px solid var(--border); color: var(--muted); font-size: 10px; }
+    .pill.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-deep); }
+    .criteria { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; }
+    .criteria li { position: relative; padding-left: 17px; color: var(--muted); line-height: 1.4; font-size: 11px; }
+    .criteria li::before { content: ""; width: 6px; height: 6px; border: 1.5px solid var(--accent); border-radius: 50%; position: absolute; left: 1px; top: 4px; }
+    textarea, input, select { width: 100%; border: 1px solid var(--border); border-radius: 8px; background: var(--panel-soft); color: var(--text); padding: 10px; }
+    textarea { min-height: 78px; resize: vertical; line-height: 1.45; }
+    textarea::placeholder, input::placeholder { color: var(--muted-2); }
+    .inspector-actions { display: grid; grid-template-columns: 1fr auto; gap: 7px; }
+    .delete-btn { color: var(--danger); background: var(--danger-soft); }
+    .connections { display: grid; gap: 6px; }
+    .connection { display: grid; grid-template-columns: 8px 1fr auto; gap: 8px; align-items: center; padding: 8px; border-radius: 7px; border: 1px solid var(--border); background: var(--panel-soft); }
+    .connection .link-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .connection b { font-size: 10px; font-weight: 650; }
+    .connection span:last-child { color: var(--muted-2); font-size: 9px; }
+
+    .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: none; place-items: center; padding: 20px; background: var(--overlay); }
+    .modal-backdrop.open { display: grid; }
+    .dialog { width: min(470px, 100%); border: 1px solid var(--border-strong); border-radius: var(--radius-lg); background: var(--panel-raised); box-shadow: var(--shadow); transform: translateY(8px); transition: transform .16s ease; }
+    .modal-backdrop.open .dialog { transform: translateY(0); }
+    .dialog-head { display: flex; align-items: flex-start; justify-content: space-between; padding: 20px 21px 15px; border-bottom: 1px solid var(--border); }
+    .dialog-head h2 { margin: 0; font-family: var(--font-display); font-size: 27px; font-weight: 530; letter-spacing: -.025em; }
+    .dialog-head p { margin: 4px 0 0; color: var(--muted); }
+    .dialog-close { width: 31px; height: 31px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font-size: 20px; }
+    .dialog-close:hover { background: var(--control-hover); color: var(--text); }
+    .dialog-body { padding: 18px 21px; display: grid; gap: 15px; }
+    .form-label { display: grid; gap: 7px; color: var(--muted); font-size: 11px; font-weight: 650; }
+    .dialog-actions { padding: 14px 21px 20px; display: flex; justify-content: flex-end; gap: 8px; }
+    .toast { position: fixed; z-index: 120; left: 50%; bottom: 24px; transform: translate(-50%, 18px); opacity: 0; pointer-events: none; display: flex; align-items: center; gap: 8px; padding: 10px 13px; border-radius: 9px; border: 1px solid var(--accent-deep); background: var(--panel-raised); color: var(--text); box-shadow: var(--shadow); transition: opacity .18s ease, transform .18s ease; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .toast-dot { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 4px var(--accent-soft); }
+
+    @media (max-width: 1050px) {
+      .workbench { grid-template-columns: 190px minmax(390px, 1fr) 275px; }
+      .canvas-head { padding-left: 20px; padding-right: 20px; }
+      .brand-name { display: none; }
+    }
+
+    @media (max-width: 780px) {
+      .app { grid-template-rows: 56px 44px 1fr; }
+      .topbar { gap: 8px; padding: 0 10px; }
+      .brand-mark { width: 26px; height: 26px; }
+      .brand-name { display: none; }
+      .mock-tag { font-size: 8px; padding-inline: 6px; }
+      .top-divider, .model-meta, .save-status, .import-btn { display: none; }
+      .top-actions { margin-left: auto; }
+      .top-actions .btn:not(.theme-toggle) { padding: 0 9px; }
+      .mobile-tabs { display: grid; grid-template-columns: repeat(3, 1fr); padding: 5px 8px; border-bottom: 1px solid var(--border); background: var(--panel); z-index: 10; }
+      .mobile-tabs button { border: 0; border-radius: 6px; background: transparent; color: var(--muted); font-weight: 650; }
+      .mobile-tabs button.active { color: var(--text); background: var(--control-hover); }
+      .workbench { display: block; min-width: 0; }
+      .library, .canvas-stage, .inspector { height: 100%; border: 0; }
+      .workbench[data-mobile-view="graph"] .library,
+      .workbench[data-mobile-view="graph"] .inspector,
+      .workbench[data-mobile-view="library"] .canvas-stage,
+      .workbench[data-mobile-view="library"] .inspector,
+      .workbench[data-mobile-view="inspector"] .canvas-stage,
+      .workbench[data-mobile-view="inspector"] .library { display: none; }
+      .canvas-head { grid-template-columns: 1fr auto; gap: 9px; padding: 16px 15px 13px; align-items: center; }
+      .canvas-head p { font-size: 12px; max-width: 280px; }
+      .canvas-head .btn { width: 35px; padding: 0; font-size: 0; }
+      .canvas-head .btn svg { width: 17px; height: 17px; }
+      .canvas-tools { padding: 8px; gap: 4px; }
+      .segmented button { padding: 0 10px; }
+      .tool-label, .connect-tool, .tool-separator.last { display: none; }
+      .graph-hint { display: none; }
+      .graph-footer { justify-content: flex-end; bottom: 9px; right: 9px; }
+      .desktop-network { display: none; }
+      .mobile-network { display: block; }
+      .panel-scroll { padding-top: 14px; }
+      .inspector-body { padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+      .library-foot { padding-bottom: calc(14px + env(safe-area-inset-bottom)); }
+      .toast { bottom: calc(16px + env(safe-area-inset-bottom)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 28 28" aria-hidden="true">
+        <path d="M7 7 14 4l7 4v8l-7 8-7-5Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="7" cy="7" r="2.2" fill="currentColor"/><circle cx="21" cy="8" r="2.2" fill="currentColor"/><circle cx="14" cy="23" r="2.2" fill="currentColor"/><circle cx="14" cy="13" r="2.5" fill="currentColor"/>
+        <path d="m8.8 8.1 3 3M19.2 9.2l-3.1 2.5M14 15.5V20" stroke="var(--panel)" stroke-width="1.3"/>
+      </svg>
+      <span class="brand-name">Graph Workbench</span>
+    </div>
+    <span class="mock-tag">UI MOCKUP</span>
+    <span class="top-divider"></span>
+    <div class="model-meta">
+      <span class="model-name">Research operating model</span>
+      <span class="draft-tag">LOCAL DRAFT</span>
+    </div>
+    <div class="save-status">Saved 2m ago</div>
+    <div class="top-actions">
+      <button class="btn import-btn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 18v2h14v-2"/></svg>Import
+      </button>
+      <button class="btn" type="button" data-toast>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 15V3m0 0 4 4m-4-4L8 7M5 12v8h14v-8"/></svg>Export
+      </button>
+      <button class="btn icon-btn theme-toggle" type="button" aria-label="Switch color theme" title="Switch color theme">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 15.2A8 8 0 1 1 8.8 4 6.3 6.3 0 0 0 20 15.2Z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <nav class="mobile-tabs" aria-label="Workbench panels">
+    <button class="active" type="button" data-view="graph">Graph</button>
+    <button type="button" data-view="library">Library</button>
+    <button type="button" data-view="inspector">Inspector</button>
+  </nav>
+
+  <main class="workbench" data-mobile-view="graph">
+    <aside class="library" aria-label="Model library">
+      <div class="panel-scroll">
+        <p class="section-label">Workspace</p>
+        <div class="nav-list">
+          <button class="nav-item active" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="6" cy="6" r="2.3"/><circle cx="18" cy="8" r="2.3"/><circle cx="11" cy="18" r="2.3"/><path d="m8 7 7.7 1M7.5 8l2.7 7.8m6.5-5.9-4.3 6.3"/></svg>
+            <span>Model graph</span><span class="count">7</span>
+          </button>
+          <button class="nav-item" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h6v6H4zm10 0h6v6h-6zM9 15h6v5H9zM7 11v2h10v-2m-5 2v2"/></svg>
+            <span>Ontology</span><span class="count">4</span>
+          </button>
+        </div>
+
+        <div class="section-head"><p class="section-label">Object types</p><button class="mini-add open-dialog" type="button" aria-label="Add object type">+</button></div>
+        <div class="type-list">
+          <button class="type-item type-method" type="button"><span class="type-dot"></span><span>Methodology</span><span class="count">1</span></button>
+          <button class="type-item type-step" type="button"><span class="type-dot"></span><span>Step</span><span class="count">3</span></button>
+          <button class="type-item type-entity" type="button"><span class="type-dot"></span><span>Entity</span><span class="count">2</span></button>
+          <button class="type-item type-decision" type="button"><span class="type-dot"></span><span>Decision</span><span class="count">1</span></button>
+        </div>
+
+        <div class="section-head"><p class="section-label">Relationships</p><button class="mini-add open-dialog" type="button" aria-label="Add relationship">+</button></div>
+        <div class="relation-list">
+          <button class="relation-item" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h13m-4-4 4 4-4 4"/><circle cx="5" cy="12" r="2"/></svg><span>produces</span><span class="count">1</span></button>
+          <button class="relation-item" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h13m-4-4 4 4-4 4"/><circle cx="5" cy="12" r="2"/></svg><span>supports</span><span class="count">1</span></button>
+          <button class="relation-item" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h13m-4-4 4 4-4 4"/><circle cx="5" cy="12" r="2"/></svg><span>flows to</span><span class="count">3</span></button>
+        </div>
+      </div>
+      <div class="library-foot">Drag objects to arrange the model.<br><kbd>⌘</kbd> + <kbd>K</kbd> opens quick add.</div>
+    </aside>
+
+    <section class="canvas-stage" aria-label="Graph canvas">
+      <div class="canvas-head">
+        <div>
+          <div class="eyebrow">Research model / Workflow</div>
+          <p>Build a traceable path from question to evidence-backed finding.</p>
+        </div>
+        <button class="btn btn-primary open-dialog" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>Add object
+        </button>
+      </div>
+      <div class="canvas-tools">
+        <div class="segmented" role="group" aria-label="Canvas view">
+          <button class="active" type="button">Graph</button><button type="button">Outline</button>
+        </div>
+        <span class="tool-separator"></span>
+        <button class="tool-btn" type="button" aria-label="Undo" title="Undo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m9 7-5 5 5 5M5 12h8a6 6 0 0 1 6 6"/></svg></button>
+        <button class="tool-btn" type="button" aria-label="Redo" title="Redo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m15 7 5 5-5 5m4-5h-8a6 6 0 0 0-6 6"/></svg></button>
+        <span class="tool-separator last"></span>
+        <button class="tool-btn connect-tool" type="button" aria-label="Connect nodes" title="Connect nodes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8 8l8 8"/></svg></button>
+        <button class="tool-btn" type="button" aria-label="Fit graph" title="Fit graph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3H3v5m13-5h5v5M8 21H3v-5m13 5h5v-5"/></svg></button>
+        <span class="tool-label">Workflow · drag to arrange</span>
+      </div>
+      <div class="graph-wrap">
+        <svg id="graph" viewBox="0 0 980 620" role="img" aria-labelledby="graphTitle graphDesc" preserveAspectRatio="xMidYMid meet">
+          <title id="graphTitle">Research workflow graph</title>
+          <desc id="graphDesc">A workflow graph with square-cornered steps and entities, a double outlined methodology node, and a diamond decision.</desc>
+          <defs>
+            <pattern id="dotGrid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="var(--grid-dot)"/></pattern>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--edge)"/></marker>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dotGrid)"/>
+
+          <g class="desktop-network">
+            <path class="edge" d="M230 299 H266 V140 H314"/>
+            <path class="edge" d="M476 140 H510 V255 H548"/>
+            <path class="edge" d="M706 255 H740 V363 H774"/>
+            <path class="edge" d="M627 294 V322 H640 V352"/>
+            <path class="edge" d="M708 448 H746 V363 H774"/>
+            <path class="edge" d="M856 324 V268 H797 V226"/>
+            <path class="edge" d="M856 402 V452 H832 V502"/>
+            <path class="edge edge-loop" d="M572 448 H512 V255 H548"/>
+
+            <g class="edge-label" transform="translate(244 207)"><rect width="62" height="20" rx="2"/><text x="31" y="13.5" text-anchor="middle">flows to</text></g>
+            <g class="edge-label" transform="translate(486 177)"><rect width="62" height="20" rx="2"/><text x="31" y="13.5" text-anchor="middle">flows to</text></g>
+            <g class="edge-label" transform="translate(720 282)"><rect width="62" height="20" rx="2"/><text x="31" y="13.5" text-anchor="middle">flows to</text></g>
+            <g class="edge-label" transform="translate(582 352)"><rect width="62" height="20" rx="2"/><text x="31" y="13.5" text-anchor="middle">flows to</text></g>
+            <g class="edge-label" transform="translate(728 414)"><rect width="36" height="20" rx="2"/><text x="18" y="13.5" text-anchor="middle">yes</text></g>
+            <g class="edge-label" transform="translate(807 265)"><rect width="67" height="20" rx="2"/><text x="33.5" y="13.5" text-anchor="middle">supports</text></g>
+            <g class="edge-label" transform="translate(841 451)"><rect width="69" height="20" rx="2"/><text x="34.5" y="13.5" text-anchor="middle">produces</text></g>
+            <g class="edge-label" transform="translate(470 274)"><rect width="34" height="20" rx="2"/><text x="17" y="13.5" text-anchor="middle">no</text></g>
+
+            <g class="node node-method selected" data-node="method" transform="translate(42 252)" tabindex="0" role="button" aria-label="Select Evidence-led research">
+              <rect class="node-shape" width="188" height="94" rx="0"/><rect class="method-inner" x="6" y="6" width="176" height="82" rx="0"/>
+              <text class="node-kicker" x="18" y="28">METHODOLOGY</text><text class="node-title" x="18" y="51">Evidence-led research</text><text class="node-sub" x="18" y="70">Opens the workflow</text><circle class="port" cx="188" cy="47" r="4"/>
+            </g>
+            <g class="node node-step" data-node="question" transform="translate(314 101)" tabindex="0" role="button" aria-label="Select Define question">
+              <rect class="node-shape" width="162" height="78" rx="0"/><text class="node-kicker" x="16" y="25">STEP</text><text class="node-title" x="16" y="48">Define question</text><text class="node-sub" x="16" y="64">Set scope + standard</text><circle class="port" cx="0" cy="39" r="4"/><circle class="port" cx="162" cy="39" r="4"/>
+            </g>
+            <g class="node node-step" data-node="gather" transform="translate(548 216)" tabindex="0" role="button" aria-label="Select Gather sources">
+              <rect class="node-shape" width="158" height="78" rx="0"/><text class="node-kicker" x="16" y="25">STEP</text><text class="node-title" x="16" y="48">Gather sources</text><text class="node-sub" x="16" y="64">Collect primary evidence</text><circle class="port" cx="0" cy="39" r="4"/><circle class="port" cx="158" cy="39" r="4"/><circle class="port" cx="79" cy="78" r="4"/>
+            </g>
+            <g class="node node-decision" data-node="decision" transform="translate(572 352)" tabindex="0" role="button" aria-label="Select Evidence sufficient decision">
+              <polygon class="node-shape" points="68,0 136,96 68,192 0,96"/><text class="node-kicker" x="68" y="72" text-anchor="middle">DECISION</text><text class="node-title" x="68" y="95" text-anchor="middle">Evidence</text><text class="node-title" x="68" y="112" text-anchor="middle">sufficient?</text><circle class="port" cx="68" cy="0" r="4"/><circle class="port" cx="136" cy="96" r="4"/><circle class="port" cx="0" cy="96" r="4"/>
+            </g>
+            <g class="node node-step" data-node="synthesize" transform="translate(774 324)" tabindex="0" role="button" aria-label="Select Synthesize findings">
+              <rect class="node-shape" width="164" height="78" rx="0"/><text class="node-kicker" x="16" y="25">STEP</text><text class="node-title" x="16" y="48">Synthesize findings</text><text class="node-sub" x="16" y="64">Resolve the evidence</text><circle class="port" cx="0" cy="39" r="4"/><circle class="port" cx="82" cy="0" r="4"/><circle class="port" cx="82" cy="78" r="4"/>
+            </g>
+            <g class="node node-entity" data-node="source" transform="translate(718 148)" tabindex="0" role="button" aria-label="Select Source">
+              <rect class="node-shape" width="158" height="78" rx="0"/><text class="node-kicker" x="16" y="25">ENTITY</text><text class="node-title" x="16" y="48">Source</text><text class="node-sub" x="16" y="64">Origin + provenance</text><circle class="port" cx="79" cy="78" r="4"/>
+            </g>
+            <g class="node node-finding" data-node="finding" transform="translate(754 502)" tabindex="0" role="button" aria-label="Select Finding">
+              <rect class="node-shape" width="156" height="78" rx="0"/><text class="node-kicker" x="16" y="25">ENTITY</text><text class="node-title" x="16" y="48">Finding</text><text class="node-sub" x="16" y="64">Claim + confidence</text><circle class="port" cx="78" cy="0" r="4"/>
+            </g>
+          </g>
+
+          <g class="mobile-network">
+            <path class="edge" d="M280 104 V132 H142 V162"/><path class="edge" d="M224 203 H260 V262 H296"/>
+            <path class="edge" d="M379 302 V326 H280 V350"/><path class="edge" d="M348 430 H382 V492 H416"/>
+            <path class="edge edge-loop" d="M212 430 H174 V262 H296"/><path class="edge" d="M488 536 V558 H425 V580"/>
+            <path class="edge" d="M479 184 V203 H379 V222"/>
+            <g class="edge-label" transform="translate(165 120)"><rect width="59" height="20" rx="2"/><text x="29.5" y="13.5" text-anchor="middle">flows to</text></g>
+            <g class="edge-label" transform="translate(244 223)"><rect width="59" height="20" rx="2"/><text x="29.5" y="13.5" text-anchor="middle">flows to</text></g>
+            <g class="edge-label" transform="translate(294 317)"><rect width="59" height="20" rx="2"/><text x="29.5" y="13.5" text-anchor="middle">flows to</text></g>
+            <g class="edge-label" transform="translate(372 447)"><rect width="32" height="20" rx="2"/><text x="16" y="13.5" text-anchor="middle">yes</text></g>
+            <g class="edge-label" transform="translate(139 345)"><rect width="31" height="20" rx="2"/><text x="15.5" y="13.5" text-anchor="middle">no</text></g>
+            <g class="edge-label" transform="translate(428 540)"><rect width="69" height="20" rx="2"/><text x="34.5" y="13.5" text-anchor="middle">produces</text></g>
+            <g class="node node-method selected" data-node="method" transform="translate(188 22)" tabindex="0" role="button"><rect class="node-shape" width="184" height="82" rx="0"/><rect class="method-inner" x="6" y="6" width="172" height="70" rx="0"/><text class="node-kicker" x="16" y="25">METHODOLOGY</text><text class="node-title" x="16" y="48">Evidence-led research</text><text class="node-sub" x="16" y="65">Opens the workflow</text></g>
+            <g class="node node-step" data-node="question" transform="translate(60 162)" tabindex="0" role="button"><rect class="node-shape" width="164" height="82" rx="0"/><text class="node-kicker" x="16" y="27">STEP</text><text class="node-title" x="16" y="51">Define question</text><text class="node-sub" x="16" y="68">Set scope + standard</text></g>
+            <g class="node node-entity" data-node="source" transform="translate(420 106)" tabindex="0" role="button"><rect class="node-shape" width="118" height="78" rx="0"/><text class="node-kicker" x="14" y="25">ENTITY</text><text class="node-title" x="14" y="48">Source</text><text class="node-sub" x="14" y="64">Provenance</text></g>
+            <g class="node node-step" data-node="gather" transform="translate(296 222)" tabindex="0" role="button"><rect class="node-shape" width="166" height="80" rx="0"/><text class="node-kicker" x="16" y="26">STEP</text><text class="node-title" x="16" y="50">Gather sources</text><text class="node-sub" x="16" y="66">Collect evidence</text></g>
+            <g class="node node-decision" data-node="decision" transform="translate(212 350)" tabindex="0" role="button"><polygon class="node-shape" points="68,0 136,80 68,160 0,80"/><text class="node-kicker" x="68" y="60" text-anchor="middle">DECISION</text><text class="node-title" x="68" y="84" text-anchor="middle">Evidence</text><text class="node-title" x="68" y="101" text-anchor="middle">sufficient?</text></g>
+            <g class="node node-step" data-node="synthesize" transform="translate(416 448)" tabindex="0" role="button"><rect class="node-shape" width="144" height="88" rx="0"/><text class="node-kicker" x="14" y="23">STEP</text><text class="node-title" x="14" y="45">Synthesize</text><text class="node-title" x="14" y="61">findings</text><text class="node-sub" x="14" y="77">Resolve the evidence</text></g>
+            <g class="node node-finding" data-node="finding" transform="translate(347 580)" tabindex="0" role="button"><rect class="node-shape" width="156" height="78" rx="0"/><text class="node-kicker" x="16" y="25">ENTITY</text><text class="node-title" x="16" y="48">Finding</text><text class="node-sub" x="16" y="64">Claim + confidence</text></g>
+          </g>
+        </svg>
+        <div class="graph-footer">
+          <div class="graph-hint">Select a node to inspect · diamond nodes branch the flow</div>
+          <div class="zoom"><button type="button" aria-label="Zoom out">−</button><span>86%</span><button type="button" aria-label="Zoom in">+</button></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="inspector" aria-label="Selected object inspector">
+      <div class="inspector-header">
+        <div class="inspector-identity">
+          <div class="type-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5Z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/></svg></div>
+          <div><div class="kind" id="inspectorKind">Methodology</div><h2 id="inspectorTitle">Evidence-led research</h2></div>
+        </div>
+      </div>
+      <div class="inspector-body">
+        <p class="description" id="inspectorDescription">A repeatable research method that keeps every claim connected to its evidence and confidence level.</p>
+        <div class="meta-grid">
+          <div class="meta-cell"><span>Shape</span><strong id="inspectorShape">Process opener</strong></div>
+          <div class="meta-cell"><span>Updated</span><strong>2 minutes ago</strong></div>
+          <div class="meta-cell"><span>ID</span><strong id="inspectorId">method-001</strong></div>
+          <div class="meta-cell"><span>Connections</span><strong id="inspectorConnections">1 outgoing</strong></div>
+        </div>
+        <div class="field-block"><span class="field-label">States</span><div class="pills" id="inspectorStates"><span class="pill active">Active</span><span class="pill">Draftable</span><span class="pill">Reusable</span></div></div>
+        <div class="field-block"><span class="field-label">Completion criteria</span><ul class="criteria" id="inspectorCriteria"><li>Question has an explicit scope</li><li>Sources carry provenance</li><li>Findings state confidence</li></ul></div>
+        <label class="field-block"><span class="field-label">Definition note</span><textarea id="definitionNote" placeholder="Add context for collaborators…">Use this as the entry point for any research workflow where claims need an audit trail.</textarea></label>
+        <div class="field-block inspector-actions"><button class="btn btn-primary" type="button" data-toast>Save changes</button><button class="btn delete-btn" type="button">Delete</button></div>
+        <div class="field-block"><span class="field-label">Connected relationships</span><div class="connections" id="inspectorRelationships"><div class="connection"><span class="link-dot"></span><b>flows to</b><span>Define question</span></div></div></div>
+      </div>
+    </aside>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="addDialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle" hidden>
+  <div class="dialog">
+    <div class="dialog-head"><div><h2 id="dialogTitle">Add an object</h2><p>Choose its role in the research model.</p></div><button class="dialog-close" type="button" aria-label="Close dialog">×</button></div>
+    <form id="addForm">
+      <div class="dialog-body">
+        <label class="form-label">Title<input name="title" required placeholder="e.g. Review contradictions" /></label>
+        <label class="form-label">Object type<select name="type"><option>Step · rectangle</option><option>Entity · rectangle</option><option>Decision · diamond</option><option>Methodology · double outline</option></select></label>
+        <label class="form-label">Description<textarea name="description" placeholder="What does this object represent?"></textarea></label>
+      </div>
+      <div class="dialog-actions"><button class="btn dialog-cancel" type="button">Cancel</button><button class="btn btn-primary" type="submit">Add to graph</button></div>
+    </form>
+  </div>
+</div>
+<div class="toast" role="status" aria-live="polite"><span class="toast-dot"></span><span id="toastText">Saved to local draft</span></div>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  const workbench = document.querySelector('.workbench');
+  const graph = document.getElementById('graph');
+  const modal = document.getElementById('addDialog');
+  const toast = document.querySelector('.toast');
+  const profiles = {
+    method: { kind:'Methodology', title:'Evidence-led research', description:'A repeatable research method that keeps every claim connected to its evidence and confidence level.', shape:'Process opener', id:'method-001', connections:'1 outgoing', states:['Active','Draftable','Reusable'], criteria:['Question has an explicit scope','Sources carry provenance','Findings state confidence'], note:'Use this as the entry point for any research workflow where claims need an audit trail.', relationships:[['flows to','Define question']] },
+    question: { kind:'Step', title:'Define question', description:'Turns an open topic into a specific question with boundaries, terms, and a standard of proof.', shape:'Process step', id:'step-001', connections:'2 connected', states:['Active','Required'], criteria:['Question is answerable','Scope is explicit','Success standard is named'], note:'The question should be narrow enough to resolve without hiding important uncertainty.', relationships:[['from','Evidence-led research'],['flows to','Gather sources']] },
+    gather: { kind:'Step', title:'Gather sources', description:'Collects primary and secondary sources while preserving where each piece of evidence came from.', shape:'Process step', id:'step-002', connections:'3 connected', states:['Active','Repeatable'], criteria:['Primary sources prioritized','Dates and authors captured','Gaps remain visible'], note:'Favor direct evidence. Use secondary sources to orient, not to replace provenance.', relationships:[['flows to','Evidence sufficient?'],['uses','Source']] },
+    decision: { kind:'Decision', title:'Evidence sufficient?', description:'A branch point that checks whether the evidence meets the question’s standard before synthesis begins.', shape:'Decision diamond', id:'decision-001', connections:'3 connected', states:['Required','Branching'], criteria:['Coverage threshold met','Contradictions inspected','Missing evidence recorded'], note:'No loops back to source gathering. Yes advances the workflow to synthesis.', relationships:[['yes','Synthesize findings'],['no','Gather sources']] },
+    synthesize: { kind:'Step', title:'Synthesize findings', description:'Compares evidence, resolves contradictions, and turns supported patterns into explicit findings.', shape:'Process step', id:'step-003', connections:'3 connected', states:['Active','Required'], criteria:['Claims trace to sources','Conflicts are surfaced','Confidence is stated'], note:'Separate what the evidence says from the interpretation placed on top of it.', relationships:[['produces','Finding'],['requires','Evidence sufficient?']] },
+    source: { kind:'Entity', title:'Source', description:'A source record with enough provenance to locate, assess, and cite the underlying material.', shape:'Entity node', id:'entity-001', connections:'1 outgoing', states:['Reference','Reusable'], criteria:['Author or origin known','Published date captured','Access path retained'], note:'Sources are evidence containers, not findings by themselves.', relationships:[['supports','Gather sources']] },
+    finding: { kind:'Entity', title:'Finding', description:'A bounded claim produced by synthesis, carrying both supporting evidence and an explicit confidence level.', shape:'Entity node', id:'finding-001', connections:'1 incoming', states:['Output','Reviewable'], criteria:['Claim is specific','Evidence is linked','Confidence is explained'], note:'A finding should remain legible even when separated from the rest of the research note.', relationships:[['from','Synthesize findings']] }
+  };
+
+  function setViewport() {
+    graph.setAttribute('viewBox', window.innerWidth <= 780 ? '0 0 560 680' : '0 0 980 620');
+  }
+  setViewport();
+  window.addEventListener('resize', setViewport);
+
+  document.querySelector('.theme-toggle').addEventListener('click', () => {
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+
+  document.querySelectorAll('.mobile-tabs button').forEach(btn => btn.addEventListener('click', () => {
+    workbench.dataset.mobileView = btn.dataset.view;
+    document.querySelectorAll('.mobile-tabs button').forEach(b => b.classList.toggle('active', b === btn));
+  }));
+
+  function selectNode(id) {
+    const p = profiles[id];
+    if (!p) return;
+    document.querySelectorAll('.node').forEach(n => n.classList.toggle('selected', n.dataset.node === id));
+    document.getElementById('inspectorKind').textContent = p.kind;
+    document.getElementById('inspectorTitle').textContent = p.title;
+    document.getElementById('inspectorDescription').textContent = p.description;
+    document.getElementById('inspectorShape').textContent = p.shape;
+    document.getElementById('inspectorId').textContent = p.id;
+    document.getElementById('inspectorConnections').textContent = p.connections;
+    document.getElementById('inspectorStates').innerHTML = p.states.map((s,i) => `<span class="pill ${i === 0 ? 'active' : ''}">${s}</span>`).join('');
+    document.getElementById('inspectorCriteria').innerHTML = p.criteria.map(c => `<li>${c}</li>`).join('');
+    document.getElementById('definitionNote').value = p.note;
+    document.getElementById('inspectorRelationships').innerHTML = p.relationships.map(r => `<div class="connection"><span class="link-dot"></span><b>${r[0]}</b><span>${r[1]}</span></div>`).join('');
+    if (window.innerWidth <= 780) {
+      workbench.dataset.mobileView = 'inspector';
+      document.querySelectorAll('.mobile-tabs button').forEach(b => b.classList.toggle('active', b.dataset.view === 'inspector'));
+    }
+  }
+  document.querySelectorAll('.node').forEach(node => {
+    node.addEventListener('click', () => selectNode(node.dataset.node));
+    node.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectNode(node.dataset.node); } });
+  });
+
+  function openModal() { modal.hidden = false; modal.classList.add('open'); setTimeout(() => modal.querySelector('input').focus(), 40); }
+  function closeModal() { modal.classList.remove('open'); modal.hidden = true; }
+  document.querySelectorAll('.open-dialog').forEach(b => b.addEventListener('click', openModal));
+  document.querySelector('.dialog-close').addEventListener('click', closeModal);
+  document.querySelector('.dialog-cancel').addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  let toastTimer;
+  function showToast(message='Saved to local draft') {
+    document.getElementById('toastText').textContent = message;
+    toast.classList.add('show'); clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1900);
+  }
+  document.querySelectorAll('[data-toast]').forEach(b => b.addEventListener('click', () => showToast()));
+  document.getElementById('addForm').addEventListener('submit', e => { e.preventDefault(); closeModal(); showToast('Object added to local draft'); e.target.reset(); });
+  document.querySelectorAll('.segmented button').forEach(b => b.addEventListener('click', () => {
+    b.parentElement.querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b));
+    if (b.textContent.trim() === 'Outline') showToast('Outline view preview selected');
+  }));
+})();
+</script>
+</body>
+</html>
